@@ -1,0 +1,61 @@
+<!-- 投稿の詳細 -->
+<!-- ログインしているユーザー名-->
+<div>
+  <%= flash[:notice] %>
+</div>
+<div class = "container px-5 px-sm-0">
+  <div class = "row">
+    <div class = "col-md-3">
+      <h2>User info</h2>
+      <%= image_tag @book.user.get_profile_image(100,100) %>
+      <table class = "table">
+        <tbody>
+          <tr></tr>
+          <tr>
+            <th>name</th>
+            <th><%= @book.user.name %></th>
+          </tr>
+          <tr>
+            <th>introduction</th>
+            <th><%= @book.user.introduction %></th>
+          </tr>
+        </tbody>
+      </table>
+      <div class = "row">
+          <%= link_to edit_user_path(@book.user), class: "btn btn-outline-secondary btn-block" do %>
+            <i class="fa-solid fa-user-gear"></i>
+          <% end %>
+      </div>
+
+      <!-- New bookのと投稿フォーム-->
+      <div>
+        <%= render 'books/form', book: @book_new %>
+      </div>
+    </div>
+
+<!-- bookの詳細ページ -->
+    <div class = "col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table class = "table">
+        <tr>
+          <td>
+            <%= image_tag @book.user.get_profile_image(100,100) if @book.user.present? %>
+            <br><%= link_to @book.user.name, user_path(@book.user) %>
+          </td>
+          <td>
+            <%= link_to @book.title, book_path(@book) %>
+          </td>
+          <td>
+            <%= @book.body %>
+          </td>
+          <td>
+            <% if current_user == @book.user %>
+              <%= link_to 'Edit', edit_book_path(@book), class: 'btn btn-sm btn-success' %>
+              <%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか?' }, class: 'btn btn-sm btn-danger' %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
